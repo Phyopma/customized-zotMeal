@@ -7,7 +7,7 @@ export default function SplitedView({ allMenus }) {
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-5 max-w-full overflow-hidden">
       {Object.keys(allMenus).map((location) => {
         return (
-          <div>
+          <div key={location}>
             <h3 className="text-center tracking-widest text-2xl leading-10 font-extrabold">
               {locationParamsName[location]}
             </h3>

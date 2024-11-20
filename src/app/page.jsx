@@ -1,9 +1,4 @@
-// import { Calendar } from "@/components/ui/calendar";
-// import { useEffect, useState } from "react";
-// import locationParams from "./queryParams/locationParams";
-// import mealParams from "./queryParams/mealParams";
-// import stationParams from "./queryParams/stationParams";
-
+"use client";
 import { formatDate, getURLString } from "@/lib/helper";
 import { LampEffect } from "./components/lampEffect";
 
