@@ -107,8 +107,8 @@ export const formatWeeklyResponse = (data) => {
 
   result.menus = sortedMenus;
 
-  console.log(result.menus["Fri Nov 22 2024"]["106"]);
-  console.log(result);
+  // console.log(result.menus["Fri Nov 22 2024"]["106"]);
+  // console.log(result);
 
   return result;
 };

@@ -1,7 +1,7 @@
 import { buildUrl, formatWeeklyResponse } from "@/lib/helper";
 import { mealParamsId } from "@/app/queryParams/mealParams";
 
-import { CollapsibleColumn } from "./collapsibleCol";
+import WeeklyView from "./weeklyView";
 
 async function fetchData({ date, location }) {
   const mode = "Weekly";
@@ -22,15 +22,7 @@ export default async function DataFetchingComponent({ searchParams }) {
 
   return (
     <div className="columns-1 md:columns-2 gap-8 p-4 space-y-4">
-      {Object.entries(allMenus.menus).map(([date, menuItems]) => (
-        <div key={date} className="break-inside-avoid">
-          <CollapsibleColumn
-            date={date}
-            menuItems={menuItems}
-            locationId={location}
-          />
-        </div>
-      ))}
+      <WeeklyView allMenus={allMenus} location={location} />
     </div>
   );
 }

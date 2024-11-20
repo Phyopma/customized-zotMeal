@@ -26,6 +26,7 @@ export function CollapsibleColumn({ date, menuItems, locationId }) {
   const location = locationParamsName[locationId];
   return (
     <Collapsible
+      key={date}
       open={isOpen}
       onOpenChange={setIsOpen}
       className="w-full space-y-2 ">
@@ -41,14 +42,13 @@ export function CollapsibleColumn({ date, menuItems, locationId }) {
 
       <CollapsibleContent className="space-y-2">
         {Object.keys(menuItems).map((key) => (
-          <Accordion type="single" collapsible>
+          <Accordion key={date + key} type="single" collapsible>
             <AccordionItem value="item-1">
               <AccordionTrigger className="rounded-md border border-sky-950 shadow-lg px-4 py-2 font-semibold text-sm text-white bg-gradient-to-br from-blue-950 via-sky-900 to-blue-950 ">
                 {mealParamsName[key]}
               </AccordionTrigger>
               {Object.values(menuItems[key])
                 .filter((item) => {
-                  console.log(item);
                   return Object.values(stationParamsId[location]).includes(
                     item.stationId
                   );
