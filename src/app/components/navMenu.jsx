@@ -116,7 +116,7 @@ export default function NavMenu() {
             </SelectContent>
           </Select>
         </NavigationMenuItem>
-        {pathname === "/daily" && isMobile && (
+        {pathname === "/daily" && (
           <NavigationMenuItem>
             <div className="flex items-center m-2 px-2 space-x-2 mb-4">
               <Checkbox
