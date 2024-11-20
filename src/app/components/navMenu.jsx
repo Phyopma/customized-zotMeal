@@ -1,6 +1,6 @@
 "use client";
 import { SyncLoader } from "react-spinners";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -36,7 +36,7 @@ import {
 export default function NavMenu() {
   const searchParms = useSearchParams();
   const pathname = usePathname();
-
+  const [isMobile, setIsMobile] = useState(false);
   const isSplit = searchParms.get("splited") === "true";
   const [location, setLocation] = React.useState();
   const locationId = parseInt(searchParms.get("location"));
@@ -47,9 +47,19 @@ export default function NavMenu() {
     if (locationId) setLocation(locationId);
   }, [locationId, isSplit]);
 
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768); // 768px is Tailwind's md breakpoint
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   return (
-    <NavigationMenu className="min-w-full flex flex-grow justify-start items-center gap-5">
-      <NavigationMenuList>
+    <NavigationMenu className="min-w-full">
+      <NavigationMenuList className="flex flex-wrap space-y-3 px-1">
         <SyncLoader
           color="#1bc1b4"
           cssOverride={{ display: "none" }}
@@ -79,32 +89,7 @@ export default function NavMenu() {
             </SelectContent>
           </Select>
         </NavigationMenuItem>
-        {pathname === "/daily" && (
-          <NavigationMenuItem>
-            <div className="flex items-center m-2 px-2 space-x-2">
-              <Checkbox
-                checked={isSplit}
-                onCheckedChange={(val) => {
-                  let updatedParams = clearLocationParams(searchParms);
-                  setLocation("");
-                  updatedParams = appendSearchParam(
-                    updatedParams,
-                    "splited",
-                    val
-                  );
-                  router.push(getURLString(pathname, updatedParams));
-                }}
-                id="terms"
-              />
-              <label
-                htmlFor="terms"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                Split View For Both Location
-              </label>
-            </div>
-          </NavigationMenuItem>
-        )}
-        <NavigationMenuItem className="w-48">
+        <NavigationMenuItem className="w-48 p-2">
           <Select
             disabled={isSplit}
             value={location}
@@ -131,6 +116,31 @@ export default function NavMenu() {
             </SelectContent>
           </Select>
         </NavigationMenuItem>
+        {pathname === "/daily" && isMobile && (
+          <NavigationMenuItem>
+            <div className="flex items-center m-2 px-2 space-x-2 mb-4">
+              <Checkbox
+                checked={isSplit}
+                onCheckedChange={(val) => {
+                  let updatedParams = clearLocationParams(searchParms);
+                  setLocation("");
+                  updatedParams = appendSearchParam(
+                    updatedParams,
+                    "splited",
+                    val
+                  );
+                  router.push(getURLString(pathname, updatedParams));
+                }}
+                id="terms"
+              />
+              <label
+                htmlFor="terms"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                Split View For Both Location
+              </label>
+            </div>
+          </NavigationMenuItem>
+        )}
       </NavigationMenuList>
     </NavigationMenu>
   );

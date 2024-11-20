@@ -34,7 +34,7 @@ export function DatePicker() {
   return (
     <NavigationMenuItem>
       <Popover onOpenChange={setOpen} open={open}>
-        <PopoverTrigger className="m-2 border-0 shadow-none" asChild>
+        <PopoverTrigger className="my-2 border-0 shadow-none" asChild>
           <Button
             variant={"primary"}
             className={cn(
