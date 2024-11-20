@@ -24,7 +24,11 @@ export default async function DataFetchingComponent({ searchParams }) {
     <div className="columns-1 md:columns-2 gap-8 p-4 space-y-4">
       {Object.entries(allMenus.menus).map(([date, menuItems]) => (
         <div key={date} className="break-inside-avoid">
-          <CollapsibleColumn date={date} menuItems={menuItems} />
+          <CollapsibleColumn
+            date={date}
+            menuItems={menuItems}
+            locationId={location}
+          />
         </div>
       ))}
     </div>

@@ -1,10 +1,12 @@
-import React from "react";
+import React, { Suspense } from "react";
 import NavMenu from "../components/navMenu";
 
-export default function WeeklyLayout({ children }) {
+export default async function WeeklyLayout({ children }) {
   return (
     <div className="max-w-full min-h-screen overflow-x-hidden overflow-y-auto">
-      <NavMenu />
+      <Suspense>
+        <NavMenu />
+      </Suspense>
       {children}
     </div>
   );

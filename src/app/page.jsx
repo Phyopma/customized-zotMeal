@@ -5,7 +5,6 @@
 // import stationParams from "./queryParams/stationParams";
 
 import { formatDate, getURLString } from "@/lib/helper";
-import { redirect } from "next/navigation";
 import { LampEffect } from "./components/lampEffect";
 
 export default function Home() {

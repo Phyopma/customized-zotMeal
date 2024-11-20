@@ -17,18 +17,13 @@ import {
 } from "@/components/ui/accordion";
 import { mealParamsName } from "@/app/queryParams/mealParams";
 import { Separator } from "@/components/ui/separator";
-import {
-  stationParamsId,
-  stationParamsName,
-} from "@/app/queryParams/stationParams";
-import { useSearchParams } from "next/navigation";
+import { stationParamsId } from "@/app/queryParams/stationParams";
 import { locationParamsName } from "@/app/queryParams/locationParams";
 
-export function CollapsibleColumn({ date, menuItems }) {
-  const [isOpen, setIsOpen] = React.useState(false);
+export function CollapsibleColumn({ date, menuItems, locationId }) {
+  const [isOpen, setIsOpen] = React.useState(true);
 
-  const location = locationParamsName[useSearchParams()?.get("location")];
-
+  const location = locationParamsName[locationId];
   return (
     <Collapsible
       open={isOpen}
