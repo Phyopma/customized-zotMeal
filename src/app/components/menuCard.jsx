@@ -12,17 +12,21 @@ import { stationParamsName } from "../queryParams/stationParams";
 import { cn } from "@/lib/utils";
 
 const mealTypeColors = {
-  Breakfast: "bg-yellow-50",
-  Lunch: "bg-green-50",
-  Dinner: "bg-blue-50 ",
-  Brunch: "bg-pink-50 ",
+  Breakfast: "bg-gradient-to-br from-yellow-100 via-yellow-50 to-yellow-100",
+  Lunch: "bg-gradient-to-br from-green-100 via-green-50 to-green-100",
+  Dinner: "bg-gradient-to-br from-blue-100 via-blue-50 to-blue-100",
+  Brunch: "bg-gradient-to-br from-pink-100 via-pink-50 to-pink-100",
 };
 
 export function MenuCard({ menu, location }) {
   const mealType = mealParamsName[menu.periodId];
   const bgColor = mealTypeColors[mealType];
   return (
-    <Card className={cn("h-[510px] flex flex-col justify-between", bgColor)}>
+    <Card
+      className={cn(
+        "h-[510px] flex flex-col  justify-between shadow-md",
+        bgColor
+      )}>
       <CardHeader className="max-h-[200px]">
         <CardTitle className="text-xl font-bold">{menu.name}</CardTitle>
         <CardDescription className="text-sm font-sans line-clamp-4 text-slate-600">
@@ -56,10 +60,14 @@ export function MenuCard({ menu, location }) {
       </CardContent>
       <CardFooter className="mt-4">
         <div className="flex flex-row gap-2 justify-between">
-          <Badge variant={"destructive"} className={"rounded-full px-3 py-1"}>
+          <Badge
+            variant={"destructive"}
+            className={"rounded-full px-3 py-1 shadow-sm"}>
             {mealType}
           </Badge>
-          <Badge className={"rounded-full px-3 py-1"} variant="outline">
+          <Badge
+            className={"rounded-full px-3 py-1 shadow-sm"}
+            variant="outline">
             {stationParamsName[location][menu.stationId]}
           </Badge>
         </div>

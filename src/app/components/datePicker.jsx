@@ -27,7 +27,6 @@ export function DatePicker() {
     let date = searchParms.get("date");
     if (date) {
       date = formatDate(new Date(decodeURI(date)));
-      console.log(date);
       setDate(date);
     }
   }, []);

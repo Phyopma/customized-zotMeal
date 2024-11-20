@@ -8,7 +8,7 @@ export default function SplitedView({ allMenus }) {
       {Object.keys(allMenus).map((location) => {
         return (
           <div>
-            <h3 className="text-center tracking-widest leading-10 font-extrabold">
+            <h3 className="text-center tracking-widest text-2xl leading-10 font-extrabold">
               {locationParamsName[location]}
             </h3>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 p-3 max-w-full overflow-hidden">

@@ -1,16 +1,12 @@
-import React from "react";
-import { mealParamsId, mealParamsName } from "../queryParams/mealParams";
-import { buildUrl, formatResponse } from "@/lib/helper";
-import { stationParamsId } from "../queryParams/stationParams";
-import IndividualView from "./components/individualView";
-import SplitedView from "./components/splitedView";
+import React, { Suspense } from "react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Terminal } from "lucide-react";
-import { locationParamsId } from "../queryParams/locationParams";
+import { SyncLoader } from "react-spinners";
+import DataFetchingComponent from "./components/dataFetchComponent";
 
 export default async function DailyPage({ searchParams }) {
   const mode = "Daily";
-  const { date, splited, location } = await searchParams;
+  const { splited, location } = await searchParams;
   const isSplited = splited === "true";
 
   // let dinnerMenu = await fetch(url).then((res) => res.json());
@@ -23,10 +19,12 @@ export default async function DailyPage({ searchParams }) {
 
   if (!location && !isSplited) {
     return (
-      <Alert className="bg-red-600 text-white border-none rounded-sm shadow-2xl m-1">
-        <Terminal className="h-4 w-4 " />
-        <AlertTitle>Choose one of the locations!</AlertTitle>
-        <AlertDescription>
+      <Alert className="bg-red-600 text-white tracking-wider border-none rounded-sm shadow-2xl m-1">
+        <Terminal className="h-4 w-4 stroke-white " />
+        <AlertTitle className="tracking-wider text-base leading-8 font-semibold">
+          Choose one of the locations!
+        </AlertTitle>
+        <AlertDescription className="font-mono leading-5">
           If you don't want to split the screen for two locations, choose one.
           If you want to split the screen, choose split.
         </AlertDescription>
@@ -34,43 +32,38 @@ export default async function DailyPage({ searchParams }) {
     );
   }
 
-  const urls = [
-    // buildUrl(location, mealParamsId["Breakfast"], mode, date),
-    buildUrl(locationParamsId["BrandyWine"], mealParamsId["Lunch"], mode, date),
-    buildUrl(
-      locationParamsId["BrandyWine"],
-      mealParamsId["Brunch"],
-      mode,
-      date
-    ),
-    buildUrl(
-      locationParamsId["BrandyWine"],
-      mealParamsId["Dinner"],
-      mode,
-      date
-    ),
-    buildUrl(locationParamsId["Anteatry"], mealParamsId["Lunch"], mode, date),
-    buildUrl(locationParamsId["Anteatry"], mealParamsId["Brunch"], mode, date),
-    buildUrl(locationParamsId["Anteatry"], mealParamsId["Dinner"], mode, date),
-  ];
-  const responses = await Promise.all(
-    urls.map((url) => fetch(url).then((res) => res.json()))
-  );
-  const allMenus = formatResponse(responses);
+  // const urls = [
+  //   // buildUrl(location, mealParamsId["Breakfast"], mode, date),
+  //   buildUrl(locationParamsId["BrandyWine"], mealParamsId["Lunch"], mode, date),
+  //   buildUrl(
+  //     locationParamsId["BrandyWine"],
+  //     mealParamsId["Brunch"],
+  //     mode,
+  //     date
+  //   ),
+  //   buildUrl(
+  //     locationParamsId["BrandyWine"],
+  //     mealParamsId["Dinner"],
+  //     mode,
+  //     date
+  //   ),
+  //   buildUrl(locationParamsId["Anteatry"], mealParamsId["Lunch"], mode, date),
+  //   buildUrl(locationParamsId["Anteatry"], mealParamsId["Brunch"], mode, date),
+  //   buildUrl(locationParamsId["Anteatry"], mealParamsId["Dinner"], mode, date),
+  // ];
+  // const responses = await Promise.all(
+  //   urls.map((url) => fetch(url).then((res) => res.json()))
+  // );
+  // const allMenus = formatResponse(responses);
 
   return (
-    <div>
-      {isSplited ? (
-        <SplitedView allMenus={allMenus} />
-      ) : (
-        <IndividualView menus={allMenus[location].menus} location={location} />
-      )}
-    </div>
+    <Suspense
+      fallback={
+        <div className="flex justify-center items-center h-screen">
+          <SyncLoader color="#1bc1b4" size={20} margin={7} />
+        </div>
+      }>
+      <DataFetchingComponent searchParams={searchParams} />
+    </Suspense>
   ); //   DailyPage
-  //   <ul>
-  //     {dinnerMenu.menus.map((item) => (
-  //       <li key={item.menuProductId}>{item.name}</li>
-  //     ))}
-  //   </ul>
-  // </div>
 }
