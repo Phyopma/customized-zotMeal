@@ -12,10 +12,10 @@ import { stationParamsName } from "../queryParams/stationParams";
 import { cn } from "@/lib/utils";
 
 const mealTypeColors = {
-  Breakfast: "bg-gradient-to-br from-yellow-100 via-yellow-50 to-yellow-100",
-  Lunch: "bg-gradient-to-br from-green-100 via-green-50 to-green-100",
-  Dinner: "bg-gradient-to-br from-blue-100 via-blue-50 to-blue-100",
-  Brunch: "bg-gradient-to-br from-pink-100 via-pink-50 to-pink-100",
+  Breakfast: "bg-gradient-to-tl from-yellow-200 via-yellow-50 to-yellow-100",
+  Lunch: "bg-gradient-to-tl from-green-200 via-green-50 to-green-100",
+  Dinner: "bg-gradient-to-tl from-blue-200 via-blue-50 to-blue-100",
+  Brunch: "bg-gradient-to-tl from-pink-200 via-pink-50 to-pink-100",
 };
 
 export function MenuCard({ menu, location }) {

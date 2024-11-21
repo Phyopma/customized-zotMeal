@@ -6,17 +6,10 @@ import {
   NavigationMenuItem,
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
-import { Separator } from "@/components/ui/separator";
+
 import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import Link from "next/link";
-import {
-  useRouter,
-  usePathname,
-  useParams,
-  useSearchParams,
-} from "next/navigation";
+
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { DatePicker } from "./datePicker";
 import {
   Select,
@@ -29,7 +22,6 @@ import { locationParamsId } from "../queryParams/locationParams";
 import {
   appendSearchParam,
   clearLocationParams,
-  formatDate,
   getURLString,
 } from "@/lib/helper";
 

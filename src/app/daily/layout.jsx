@@ -4,12 +4,11 @@ import NavMenu from "../components/navMenu";
 
 export default async function DailyLayout({ children }) {
   return (
-    <div className="max-w-full h-screen overflow-x-hidden overflow-y-auto">
-      <Suspense>
+    <Suspense>
+      <div className="max-w-full h-screen overflow-x-hidden overflow-y-auto">
         <NavMenu />
-      </Suspense>
-
-      {children}
-    </div>
+        {children}
+      </div>
+    </Suspense>
   );
 }
