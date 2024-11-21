@@ -5,8 +5,8 @@ export default function manifest() {
     description: "UCI Campus Dining Menu",
     start_url: "/",
     display: "standalone",
-    background_color: "#ffffff",
-    theme_color: "#000000",
+    background_color: "#0b0f1f",
+    theme_color: "#0b0f1f",
     icons: [
       {
         src: "/appicon/web-app-manifest-192x192.png",
