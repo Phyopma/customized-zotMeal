@@ -3,6 +3,7 @@ import { formatDate, getURLString } from "@/lib/helper";
 import { LampEffect } from "./components/lampEffect";
 import { useState, useEffect } from "react";
 import { locationParamsId } from "./queryParams/locationParams";
+import InstallPrompt from "./components/installPrompt";
 
 export default function Home() {
   const [urls, setUrls] = useState({ dailyURL: "", weeklyURL: "" });
@@ -32,5 +33,10 @@ export default function Home() {
     setUrls({ dailyURL, weeklyURL });
   }, [isMobile]);
 
-  return <LampEffect dailyURL={urls.dailyURL} weeklyURL={urls.weeklyURL} />;
+  return (
+    <>
+      <InstallPrompt />
+      <LampEffect dailyURL={urls.dailyURL} weeklyURL={urls.weeklyURL} />;
+    </>
+  );
 }
