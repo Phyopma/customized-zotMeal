@@ -34,7 +34,11 @@ export default async function RootLayout({ children }) {
           sizes="180x180"
           href="/appicon/apple-touch-icon.png"
         />
-        <meta name="apple-mobile-web-app-title" content="MyWebSite" />
+        <meta name="apple-mobile-web-app-title" content="ZotMeal" />
+        <meta
+          name="apple-mobile-web-app-status-bar-style"
+          content="black-translucent"
+        />
         <link rel="manifest" href="/appicon/site.webmanifest" />
       </head>
       <body
