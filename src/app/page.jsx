@@ -34,9 +34,9 @@ export default function Home() {
   }, [isMobile]);
 
   return (
-    <>
+    <div className="h-screen overflow-hidden">
       <InstallPrompt />
       <LampEffect dailyURL={urls.dailyURL} weeklyURL={urls.weeklyURL} />;
-    </>
+    </div>
   );
 }
