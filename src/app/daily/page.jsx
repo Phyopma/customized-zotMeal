@@ -6,7 +6,7 @@ import DataFetchingComponent from "./components/dataFetchComponent";
 
 export default async function DailyPage({ searchParams }) {
   const mode = "Daily";
-  const { splited, location } = await searchParams;
+  const { splited, location, date } = await searchParams;
   const isSplited = splited === "true";
 
   // let dinnerMenu = await fetch(url).then((res) => res.json());
@@ -56,14 +56,5 @@ export default async function DailyPage({ searchParams }) {
   // );
   // const allMenus = formatResponse(responses);
 
-  return (
-    <Suspense
-      fallback={
-        <div className="flex justify-center items-center h-screen">
-          <SyncLoader color="#1bc1b4" size={20} margin={7} />
-        </div>
-      }>
-      <DataFetchingComponent searchParams={searchParams} />
-    </Suspense>
-  ); //   DailyPage
+  return <DataFetchingComponent searchParams={{ date, location, splited }} />; //   DailyPage
 }

@@ -1,3 +1,4 @@
+import { fetchDailyData, fetchWeeklyData } from "@/lib/actions/fetchMenus";
 // import { mealParamsId } from "@/app/queryParams/mealParams";
 // import { buildUrl, formatResponse } from "@/lib/helper";
 
@@ -23,22 +24,16 @@
 //   });
 // }
 
-// Menu<Object> {
-//     locationId<String>,
-//         MenuId<String>,
-//         MenuProducts<Array<Object>>[{
-//         MenuProductId<String>,
-//         ProductId<String>,
-//         StationId<String>,
-//             Product<Object>{
-// MarketingName<String>,
-// ShortDescription<String>,
-//             Calories<String>,
-//         AddedSugars<String>,
-//             Protein<String>,
-//             ShortDescription<String>,
-//             TotalCarbohydrates<String>,
-//             TotalFat<String>,
-//             }
-//         }]
-// }
+export async function GET(request, { params }) {
+  const { mode, location } = await params;
+  const date = request.nextUrl.searchParams.get("date");
+
+  const menus =
+    mode === "Weekly"
+      ? await fetchWeeklyData({ date, location })
+      : await fetchDailyData({ date });
+  return Response.json({
+    status: 200,
+    body: menus,
+  });
+}

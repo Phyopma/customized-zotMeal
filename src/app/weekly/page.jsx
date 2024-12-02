@@ -4,7 +4,7 @@ import { Terminal } from "lucide-react";
 import { SyncLoader } from "react-spinners";
 import DataFetchingComponent from "./components/dataFetchComponent";
 export default async function WeeklyPage({ searchParams }) {
-  const { location } = await searchParams;
+  const { location, date } = await searchParams;
   if (!location) {
     return (
       <Alert className="bg-red-600 text-white border-none rounded-sm shadow-2xl m-1">
@@ -19,13 +19,13 @@ export default async function WeeklyPage({ searchParams }) {
     );
   }
   return (
-    <Suspense
-      fallback={
-        <div className="flex justify-center items-center h-screen">
-          <SyncLoader color="#1bc1b4" size={20} margin={7} />
-        </div>
-      }>
-      <DataFetchingComponent searchParams={searchParams} />
-    </Suspense>
+    // <Suspense
+    //   fallback={
+    //     <div className="flex justify-center items-center h-screen">
+    //       <SyncLoader color="#1bc1b4" size={20} margin={7} />
+    //     </div>
+    //   }>
+    <DataFetchingComponent searchParams={{ location, date }} />
+    // </Suspense>
   );
 }
