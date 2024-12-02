@@ -8,12 +8,12 @@ export default function IndividualView({ menus, location }) {
       {menus
         .sort((a, b) => a.periodId - b.periodId)
         .map(
-          (item) =>
+          (item, idx) =>
             Object.values(
               stationParamsId[locationParamsName[location]]
             ).includes(item.stationId) && (
               <MenuCard
-                key={item.menuProductId}
+                key={item.menuProductId + idx}
                 menu={item}
                 location={locationParamsName[location]}
               />

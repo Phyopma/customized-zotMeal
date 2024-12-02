@@ -53,9 +53,9 @@ export function CollapsibleColumn({ date, menuItems, locationId }) {
                     item.stationId
                   );
                 })
-                .map((item) => (
+                .map((item, idx) => (
                   <AccordionContent
-                    key={item.menuProductId}
+                    key={item.menuProductId + idx}
                     className="flex flex-row py-4 px-6">
                     <div className="flex w-full flex-row justify-between items-center">
                       <span>{item.name}</span>
