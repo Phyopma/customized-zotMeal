@@ -11,63 +11,105 @@ import { mealParamsName } from "../queryParams/mealParams";
 import { stationParamsName } from "../queryParams/stationParams";
 import { cn } from "@/lib/utils";
 
+// Color mapping based on meal type
 const mealTypeColors = {
-  Breakfast: "bg-gradient-to-tl from-yellow-200 via-yellow-50 to-yellow-100",
-  Lunch: "bg-gradient-to-tl from-green-200 via-green-50 to-green-100",
-  Dinner: "bg-gradient-to-tl from-blue-200 via-blue-50 to-blue-100",
-  Brunch: "bg-gradient-to-tl from-pink-200 via-pink-50 to-pink-100",
+  Breakfast: {
+    bg: "bg-amber-50",
+    text: "text-slate-900",
+    muted: "text-slate-600",
+    badge: {
+      highProtein: "bg-amber-600 text-white hover:bg-amber-700",
+      lowCal: "bg-amber-200 text-amber-800 hover:bg-amber-300",
+      category: "bg-rose-100 text-rose-800 border-rose-200 hover:bg-rose-100",
+      source: "bg-blue-100 text-blue-800 border-blue-200 hover:bg-blue-100",
+    },
+  },
+  Lunch: {
+    bg: "bg-emerald-50",
+    text: "text-slate-900",
+    muted: "text-slate-600",
+    badge: {
+      highProtein: "bg-emerald-600 text-white hover:bg-emerald-700",
+      lowCal: "bg-emerald-200 text-emerald-800 hover:bg-emerald-300",
+      category: "bg-rose-100 text-rose-800 border-rose-200 hover:bg-rose-100",
+      source: "bg-blue-100 text-blue-800 border-blue-200 hover:bg-blue-100",
+    },
+  },
+  Dinner: {
+    bg: "bg-blue-50",
+    text: "text-slate-900",
+    muted: "text-slate-600",
+    badge: {
+      highProtein: "bg-blue-600 text-white hover:bg-blue-700",
+      lowCal: "bg-blue-200 text-blue-800 hover:bg-blue-300",
+      category: "bg-rose-100 text-rose-800 border-rose-200 hover:bg-rose-100",
+      source: "bg-blue-100 text-blue-800 border-blue-200 hover:bg-blue-100",
+    },
+  },
+  Brunch: {
+    bg: "bg-pink-50",
+    text: "text-slate-900",
+    muted: "text-slate-600",
+    badge: {
+      highProtein: "bg-pink-600 text-white hover:bg-pink-700",
+      lowCal: "bg-pink-200 text-pink-800 hover:bg-pink-300",
+      category: "bg-rose-100 text-rose-800 border-rose-200 hover:bg-rose-100",
+      source: "bg-blue-100 text-blue-800 border-blue-200 hover:bg-blue-100",
+    },
+  },
 };
 
 export function MenuCard({ menu, location }) {
   const mealType = mealParamsName[menu.periodId];
-  const bgColor = mealTypeColors[mealType];
+  const colors = mealTypeColors[mealType] || mealTypeColors.Breakfast;
+
+  const tags = [];
+  if (menu.protein > 10) tags.push("High Protein");
+  if (menu.calories < 200) tags.push("LowCal");
+
   return (
     <Card
       className={cn(
-        "h-[510px] flex flex-col  justify-between shadow-md",
-        bgColor
+        `${colors.bg} ${colors.text} overflow-hidden border-none shadow-md hover:shadow-lg transition-shadow h-[350px] mx-2`
       )}>
-      <CardHeader className="max-h-[200px]">
+      <CardHeader className="pb-2">
         <CardTitle className="text-xl font-bold">{menu.name}</CardTitle>
-        <CardDescription className="text-sm font-sans line-clamp-4 text-slate-600">
-          {menu.shortDescription}
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="max-h[250px]">
-        <div className="flex flex-row gap-4 items-center ">
-          {menu.protein > 10 && (
-            <Badge
-              className={"rounded-full text-xs font-semibold px-3"}
-              variant="">
-              High Protein
-            </Badge>
-          )}
-          {menu.calories < 200 && (
-            <Badge
-              className={"rounded-full text-xs font-semibold px-3"}
-              variant="">
-              LowCal
-            </Badge>
-          )}
+        <div
+          className={`${colors.muted} min-h-[60px] max-h-[100px] overflow-hidden`}>
+          <p className="line-clamp-2">{menu.shortDescription}</p>
         </div>
-        <div className="flex flex-col pt-5 text-sm font-semibold leading-8">
-          <span>Calories: {menu.calories} kcals</span>
-          <span>Protein: {menu.protein} g</span>
-          <span>Total Carbohydrates: {menu.totalCarbohydrates} g</span>
-          <span>Total Fat: {menu.totalFat} g</span>
-          <span>Added Sugars: {menu.addedSugars} g</span>
+      </CardHeader>
+      <CardContent className="pb-2 h-[180px]">
+        <div className="flex flex-wrap gap-2 mb-4 h-[30px]">
+          {tags.map((tag) => (
+            <Badge
+              key={tag}
+              className={
+                tag === "High Protein"
+                  ? colors.badge.highProtein
+                  : colors.badge.lowCal
+              }>
+              {tag}
+            </Badge>
+          ))}
+        </div>
+
+        <div className="space-y-2">
+          <div className="font-semibold">Calories: {menu.calories} kcals</div>
+          <div className="grid grid-cols-2 gap-x-4 gap-y-1">
+            <div>Protein: {menu.protein} g</div>
+            <div>Carbs: {menu.totalCarbohydrates} g</div>
+            <div>Fat: {menu.totalFat} g</div>
+            <div>Added Sugars: {menu.addedSugars} g</div>
+          </div>
         </div>
       </CardContent>
-      <CardFooter className="mt-4">
-        <div className="flex flex-row gap-2 justify-between">
-          <Badge
-            variant={"destructive"}
-            className={"rounded-full px-3 py-1 shadow-sm"}>
+      <CardFooter className="pt-0 h-[30px] flex items-center">
+        <div className="flex justify-start gap-4 w-full">
+          <Badge variant="outline" className={colors.badge.category}>
             {mealType}
           </Badge>
-          <Badge
-            className={"rounded-full px-3 py-1 shadow-sm"}
-            variant="outline">
+          <Badge variant="outline" className={colors.badge.source}>
             {stationParamsName[location][menu.stationId]}
           </Badge>
         </div>
@@ -76,7 +118,7 @@ export function MenuCard({ menu, location }) {
   );
 }
 
-//  menuProductId: mp.MenuProductId,
+// menuProductId: mp.MenuProductId,
 // periodId: mp.PeriodId,
 // productId: mp.ProductId,
 // stationId: mp.StationId,
