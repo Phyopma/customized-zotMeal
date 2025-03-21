@@ -17,7 +17,7 @@ export default function IndividualView({ menus, location }) {
   }, {});
 
   // Get unique period IDs and sort them
-  const periodIds = Object.keys(menusByPeriod).sort();
+  const periodIds = Object.keys(menusByPeriod);
 
   return (
     <div className="">

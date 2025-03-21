@@ -73,7 +73,9 @@ export function MenuCard({ menu, location }) {
         `${colors.bg} ${colors.text} overflow-hidden border-none shadow-md hover:shadow-lg transition-shadow h-[350px] mx-2`
       )}>
       <CardHeader className="pb-2">
-        <CardTitle className="text-xl font-bold">{menu.name}</CardTitle>
+        <CardTitle className="text-xl font-bold line-clamp-1">
+          {menu.name}
+        </CardTitle>
         <div
           className={`${colors.muted} min-h-[60px] max-h-[100px] overflow-hidden`}>
           <p className="line-clamp-2">{menu.shortDescription}</p>

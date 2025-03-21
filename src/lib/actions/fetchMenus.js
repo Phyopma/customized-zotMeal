@@ -9,22 +9,34 @@ import { locationParamsId } from "@/app/queryParams/locationParams";
 async function fetchDailyData({ date }) {
   const mode = "Daily";
   const urls = [
-    buildUrl(locationParamsId["BrandyWine"], mealParamsId["Lunch"], mode, date),
     buildUrl(
       locationParamsId["BrandyWine"],
       mealParamsId["Brunch"],
       mode,
       date
     ),
+    buildUrl(locationParamsId["BrandyWine"], mealParamsId["Lunch"], mode, date),
     buildUrl(
       locationParamsId["BrandyWine"],
       mealParamsId["Dinner"],
       mode,
       date
     ),
-    buildUrl(locationParamsId["Anteatry"], mealParamsId["Lunch"], mode, date),
+    buildUrl(
+      locationParamsId["BrandyWine"],
+      mealParamsId["LateNight"],
+      mode,
+      date
+    ),
     buildUrl(locationParamsId["Anteatry"], mealParamsId["Brunch"], mode, date),
+    buildUrl(locationParamsId["Anteatry"], mealParamsId["Lunch"], mode, date),
     buildUrl(locationParamsId["Anteatry"], mealParamsId["Dinner"], mode, date),
+    buildUrl(
+      locationParamsId["Anteatry"],
+      mealParamsId["LateNight"],
+      mode,
+      date
+    ),
   ];
   const responses = await Promise.all(
     urls.map((url) => fetch(url).then((res) => res.json()))
@@ -41,6 +53,7 @@ async function fetchWeeklyData({ date, location }) {
     buildUrl(location, mealParamsId["Brunch"], mode, date),
     buildUrl(location, mealParamsId["Dinner"], mode, date),
     buildUrl(location, mealParamsId["Breakfast"], mode, date),
+    buildUrl(location, mealParamsId["LateNight"], mode, date),
   ];
   const responses = await Promise.all(
     urls.map((url) => fetch(url).then((res) => res.json()))
