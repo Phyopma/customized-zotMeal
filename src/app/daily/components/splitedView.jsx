@@ -14,8 +14,32 @@ export default function SplitedView({ allMenus }) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {allMenus[location].menus
               .sort((a, b) => a.periodId - b.periodId)
-              .map(
-                (item, idx) =>
+              .map((item, idx) => {
+                // For LateNight, only show Ember for Brandywine and SizzleGrill for Anteatry
+                if (
+                  item.periodId === "108" &&
+                  Object.values(
+                    stationParamsId[locationParamsName[location]]
+                  ).includes(item.stationId)
+                ) {
+                  return (
+                    <MenuCard
+                      key={item.menuProductId + idx}
+                      menu={item}
+                      location={locationParamsName[location]}
+                    />
+                  );
+                }
+
+                // For other meal periods
+                if (location === "3056" && item.stationId === "23990") {
+                  return null;
+                }
+                if (location === "3314" && item.stationId === "32802") {
+                  return null;
+                }
+
+                return (
                   Object.values(
                     stationParamsId[locationParamsName[location]]
                   ).includes(item.stationId) && (
@@ -25,7 +49,8 @@ export default function SplitedView({ allMenus }) {
                       location={locationParamsName[location]}
                     />
                   )
-              )}
+                );
+              })}
           </div>
         </div>
       ))}
