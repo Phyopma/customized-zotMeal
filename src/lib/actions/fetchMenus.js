@@ -41,8 +41,8 @@ async function fetchDailyData({ date }) {
   const responses = await Promise.all(
     urls.map((url) => fetch(url).then((res) => res.json()))
   );
-
-  console.log(responses);
+  // console.log(urls);
+  // console.log("Daily response", responses);
   return formatDailyResponse(responses);
 }
 

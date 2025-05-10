@@ -22,30 +22,47 @@ export const getURLString = (pathName, searchParms) =>
 
 const modifyResponse = (data) => {
   return data.map((d) => {
-    const { LocationId, MenuId, MenuProducts, StartDate, EndDate } = d.Menu;
+    const { MenuProducts } = d.Menu;
     const menus = MenuProducts.map((mp) => {
+      const nutritionalInfo = mp.Product.NutritionalTree.reduce((acc, item) => {
+        switch (item.Name) {
+          case "Calories":
+            acc.calories = item.Value;
+            break;
+          case "Total Fat":
+            acc.totalFat = item.Value;
+            break;
+          case "Total Carbohydrates":
+            acc.totalCarbohydrates = item.Value;
+            break;
+          case "Protein":
+            acc.protein = item.Value;
+            break;
+          case "Added Sugars":
+            acc.addedSugars = item.Value;
+            break;
+        }
+        return acc;
+      }, {});
+
       return {
         menuProductId: mp.MenuProductId,
-        periodId: mp.PeriodId,
+        periodId: d.SelectedPeriodId,
         productId: mp.ProductId,
         stationId: mp.StationId,
         assignDate: mp.AssignedDate,
         name: mp.Product.MarketingName,
-        calories: mp.Product.Calories,
-        addedSugars: mp.Product.AddedSugars,
-        protein: mp.Product.Protein,
         shortDescription: mp.Product.ShortDescription,
-        totalCarbohydrates: mp.Product.TotalCarbohydrates,
-        totalFat: mp.Product.TotalFat,
+        ...nutritionalInfo,
       };
     });
 
     return {
-      locationId: LocationId,
-      menuId: MenuId,
+      locationId: d.LocationId,
+      menuId: d.MenuId,
       menus,
-      startDate: StartDate,
-      endDate: EndDate,
+      startDate: d.StartDate,
+      endDate: d.EndDate,
     };
   });
 };
@@ -71,9 +88,33 @@ export const formatWeeklyResponse = (data) => {
   }
 
   const allMenus = modifyResponse(data);
-  var { locationId, startDate, endDate } = allMenus[0];
 
-  let initial = { locationId, startDate, endDate, menus: {} };
+  // Check if we have any menus and get the first one
+  if (!allMenus.length) {
+    return { menus: {} };
+  }
+
+  const firstMenu = allMenus[0];
+  const { locationId, startDate, endDate } = firstMenu;
+
+  // If startDate is undefined, use current date
+  const start = startDate
+    ? new Date(parseInt(startDate.match(/\d+/)[0], 10))
+    : new Date();
+  start.setDate(start.getDate() + 1);
+
+  // If endDate is undefined, use start date + 7 days
+  const end = endDate
+    ? new Date(parseInt(endDate.match(/\d+/)[0], 10))
+    : new Date(start.getTime() + 7 * 24 * 60 * 60 * 1000);
+  end.setDate(end.getDate() + 1);
+
+  let initial = {
+    locationId,
+    startDate: start.toDateString(),
+    endDate: end.toDateString(),
+    menus: {},
+  };
 
   const result = allMenus.reduce((acc, curr) => {
     const { menus } = curr;
@@ -87,15 +128,6 @@ export const formatWeeklyResponse = (data) => {
     return acc;
   }, initial);
 
-  const start = new Date(parseInt(startDate.match(/\d+/)[0], 10));
-  start.setDate(start.getDate() + 1);
-  result.startDate = start.toDateString();
-
-  const end = new Date(parseInt(endDate.match(/\d+/)[0], 10));
-  end.setDate(end.getDate() + 1);
-
-  result.endDate = end.toDateString();
-
   const sortedMenus = Object.keys(result.menus)
     .sort((a, b) => {
       return new Date(a) - new Date(b);
@@ -106,9 +138,6 @@ export const formatWeeklyResponse = (data) => {
     }, {});
 
   result.menus = sortedMenus;
-
-  // console.log(result.menus["Fri Nov 22 2024"]["106"]);
-  // console.log(result);
 
   return result;
 };
